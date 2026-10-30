@@ -25,10 +25,12 @@ export default function ProfileScreen() {
     setRole,
     profile,
     updateProfile,
+    accounts,
     resetDemoData,
   } = useApp();
 
   const isTrainer = role === "trainer";
+  const account = accounts[isTrainer ? "trainer" : "individual"];
 
   function confirmReset() {
     Alert.alert(
@@ -70,6 +72,28 @@ export default function ProfileScreen() {
           {isTrainer ? "Trainer mode" : profile.goal}
         </AppText>
       </Card>
+
+      {account ? (
+        <Card>
+          <AppText size={17} weight="700">
+            Account
+          </AppText>
+          <AppText color={theme.muted}>{account.email}</AppText>
+          {isTrainer && account.specialties ? (
+            <AppText color={theme.muted}>
+              Specialties: {account.specialties.join(", ")}
+            </AppText>
+          ) : null}
+          {isTrainer && account.years !== undefined ? (
+            <AppText color={theme.muted}>
+              {account.years} {account.years === 1 ? "year" : "years"} of experience
+            </AppText>
+          ) : null}
+          {account.certification ? (
+            <AppText color={theme.muted}>Certification: {account.certification}</AppText>
+          ) : null}
+        </Card>
+      ) : null}
 
       <Card style={{ gap: 14 }}>
         <AppText size={17} weight="700">

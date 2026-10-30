@@ -118,13 +118,13 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   name: {
-    color: "#F4F7F4",
+    color: "#F7F4FF",
     fontSize: 40,
     fontWeight: "800",
     letterSpacing: -1,
   },
   tagline: {
-    color: "#9AA79E",
+    color: "#A59FC4",
     fontSize: 15,
     letterSpacing: 0.3,
   },

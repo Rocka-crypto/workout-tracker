@@ -13,6 +13,7 @@ import { useApp } from "../context/AppContext";
 import { AppText } from "../components/UI";
 
 import RoleSelectScreen from "../screens/RoleSelectScreen";
+import RegisterScreen from "../screens/RegisterScreen";
 import HomeScreen from "../screens/HomeScreen";
 import PlansScreen from "../screens/PlansScreen";
 import PlanEditorScreen from "../screens/PlanEditorScreen";
@@ -182,7 +183,7 @@ function TrainerStack() {
 /* ---------- Root ---------- */
 
 export default function AppNavigator() {
-  const { theme, themeMode, ready, role } = useApp();
+  const { theme, themeMode, ready, role, accounts } = useApp();
 
   if (!ready) {
     return (
@@ -210,12 +211,16 @@ export default function AppNavigator() {
       }}
     >
       {/*
-        The visible stack is driven entirely by `role`, so switching modes
-        swaps screens automatically. No manual navigate()/replace() is needed.
+        The visible screen is driven entirely by `role` and `accounts`:
+        no role -> role picker; role without an account -> registration;
+        otherwise the app. Switching modes swaps screens automatically,
+        so no manual navigate()/replace() is needed.
       */}
       <Root.Navigator screenOptions={{ headerShown: false }}>
         {role === null ? (
           <Root.Screen name="RoleSelect" component={RoleSelectScreen} />
+        ) : !accounts[role] ? (
+          <Root.Screen name="Register" component={RegisterScreen} />
         ) : role === "trainer" ? (
           <Root.Screen name="TrainerApp" component={TrainerStack} />
         ) : (

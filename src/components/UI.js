@@ -327,6 +327,7 @@ export function Field({
   error,
   maxLength,
   autoFocus,
+  autoCapitalize,
   style,
 }) {
   const { theme } = useApp();
@@ -348,6 +349,8 @@ export function Field({
         multiline={multiline}
         maxLength={maxLength}
         autoFocus={autoFocus}
+        autoCapitalize={autoCapitalize}
+        autoCorrect={autoCapitalize === "none" ? false : undefined}
         selectionColor={theme.primary}
         style={[
           styles.input,

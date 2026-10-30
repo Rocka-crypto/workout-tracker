@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "scheme": "forma",
     "userInterfaceStyle": "automatic",
-    "backgroundColor": "#101411",
+    "backgroundColor": "#0F0B1E",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.forma.workouttracker"
@@ -15,7 +15,7 @@
     "android": {
       "package": "com.forma.workouttracker",
       "adaptiveIcon": {
-        "backgroundColor": "#35B968",
+        "backgroundColor": "#E85D2A",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -32,7 +32,7 @@
           "image": "./assets/splash-icon.png",
           "imageWidth": 160,
           "resizeMode": "contain",
-          "backgroundColor": "#101411"
+          "backgroundColor": "#0F0B1E"
         }
       ]
     ]

@@ -20,6 +20,7 @@ import { uid } from "../utils";
 
 const AppContext = createContext(null);
 const STORAGE_KEY = "@forma_state_v2";
+const emptyAccounts = { individual: null, trainer: null };
 
 export function AppProvider({ children }) {
   // role === null means "show the role picker"
@@ -30,6 +31,7 @@ export function AppProvider({ children }) {
   const [clients, setClients] = useState(initialClients);
   const [customExercises, setCustomExercises] = useState([]);
   const [profile, setProfile] = useState(defaultProfile);
+  const [accounts, setAccounts] = useState(emptyAccounts);
   const [ready, setReady] = useState(false);
 
   /* ---------- Load ---------- */
@@ -54,6 +56,9 @@ export function AppProvider({ children }) {
           if (Array.isArray(data.clients)) setClients(data.clients);
           if (Array.isArray(data.customExercises)) {
             setCustomExercises(data.customExercises);
+          }
+          if (data.accounts && typeof data.accounts === "object") {
+            setAccounts({ ...emptyAccounts, ...data.accounts });
           }
           if (data.profile) {
             setProfile((current) => ({ ...current, ...data.profile }));
@@ -85,12 +90,13 @@ export function AppProvider({ children }) {
       clients,
       customExercises,
       profile,
+      accounts,
     };
 
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data)).catch((error) =>
       console.warn("Could not save app data:", error)
     );
-  }, [ready, role, themeMode, plans, history, clients, customExercises, profile]);
+  }, [ready, role, themeMode, plans, history, clients, customExercises, profile, accounts]);
 
   const theme = themes[themeMode] || themes.dark;
 
@@ -106,6 +112,29 @@ export function AppProvider({ children }) {
 
   function updateProfile(patch) {
     setProfile((current) => ({ ...current, ...patch }));
+  }
+
+  /* ---------- Accounts (stored on this device only) ---------- */
+  // kind: "individual" | "trainer"
+  function registerAccount(kind, details) {
+    setAccounts((current) => ({
+      ...current,
+      [kind]: { ...details, createdAt: new Date().toISOString() },
+    }));
+
+    setProfile((current) => ({
+      ...current,
+      name: details.name,
+      ...(kind === "individual"
+        ? {
+            goal: details.goal,
+            level: details.level,
+            weeklyGoal: details.weeklyGoal,
+          }
+        : {}),
+    }));
+
+    setRole(kind);
   }
 
   /* ---------- Plans ---------- */
@@ -193,6 +222,8 @@ export function AppProvider({ children }) {
     theme,
     profile,
     updateProfile,
+    accounts,
+    registerAccount,
     plans,
     savePlan,
     deletePlan,

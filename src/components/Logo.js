@@ -7,7 +7,7 @@ import { BRAND } from "../theme";
 // needs no image or SVG dependency. Proportions match assets/icon.png.
 export default function Logo({
   size = 96,
-  background = BRAND.green,
+  background = BRAND.accent,
   ink = BRAND.ink,
   tile = true,
 }) {
